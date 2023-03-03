@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html>
-
+    <head>
+        <style>
+        body {background-color: rgb(0, 0, 0);}
+        h1 
+        {
+          color: rgb(149, 149, 249);
+          font-family: verdana;
+          font-size: 300%;
+        }
+        p 
+        {
+            border: 2px solid powderblue;
+            padding: 30px;
+        }
+        label
+        {
+            color: rgb(254, 254, 254);  
+        }
+        </style>
+    </head>
 <body>
 
-<h1>註冊</h1><br>
+<h1>註冊</h1>
 
-<p><input type="text" placeholder="姓名"><p>
-<p><input type="text" placeholder="帳號"><p>
-<p><input type="email" placeholder="email"><p>
-<p><input type="password" placeholder="密碼"><p>   
-<p><input type="" placeholder="血型"><p>
-<p><input type="date" placeholder="生日"><p>
-<label for="city">城市:</label>
+<p><input type="text" placeholder="姓名">
+<p><input type="text" placeholder="帳號">
+<p><input type="email" placeholder="email">
+<p><input type="password" placeholder="密碼">  
+<p><input type="" placeholder="血型">
+<p><input type="date" placeholder="生日">
+<p><label for="city">城市:</label>
 
 <select id="city" name="city">
     <option value="Taipei">Taipei</option>
@@ -20,10 +39,12 @@
     <option value="Tainan">Tainan</option>
 </select>
 
-<p><input type="" placeholder="生日"><p>
+<p><input type="" placeholder="生日">
 
-    <p><label for="phone">電話:</label>
-    <input type="tel" id="phone" name="phone" placeholder="+886-XXX-XXX-XXX" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required><p>
+<p><label for="phone">電話:</label>
+<input type="tel" id="phone" name="phone" placeholder="+886-XXX-XXX-XXX" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required>
+
+<p><img src="../../img/fome.gif" alt="?" width="398" height="300">
 
 <br><br><input type="submit" value="Submit">
 <input type="reset">
