@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>貪食蛇遊戲</title>
+    <style>
+        #game-board {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+            position: relative;
+        }
+
+        .snake-body {
+            width: 20px;
+            height: 20px;
+            background-color: green;
+            position: absolute;
+        }
+
+        #food {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <h1>貪食蛇遊戲</h1>
+    <p>已吃到的食物數量：<span id="food-count">0</span></p>
+    <div id="game-board"></div>
+
+    <script>
+        const boardSize = 400;
+        const snakeSize = 20;
+
+        const gameBoard = document.getElementById('game-board');
+        const foodCountElement = document.getElementById('food-count');
+        let snakeX = 0;
+        let snakeY = 0;
+        let foodX = 0;
+        let foodY = 0;
+        let dx = snakeSize;
+        let dy = 0;
+        let snake = [];
+        let foodCount = 0;
+        let gameInterval;
+
+        function init() {
+            createSnake();
+            createFood();
+            document.addEventListener('keydown', changeDirection);
+            gameInterval = setInterval(moveSnake, 200);
+        }
+
+        function createSnake() {
+            for (let i = 0; i < 3; i++) {
+                const bodyPart = createSnakeBodyPart(snakeX - i * snakeSize, snakeY);
+                gameBoard.appendChild(bodyPart);
+                snake.push(bodyPart);
+            }
+        }
+
+        function createFood() {
+            foodX = getRandomPosition();
+            foodY = getRandomPosition();
+            const food = createSnakeBodyPart(foodX, foodY);
+            food.setAttribute('id', 'food');
+            gameBoard.appendChild(food);
+        }
+
+        function createSnakeBodyPart(x, y) {
+            const bodyPart = document.createElement('div');
+            bodyPart.style.left = x + 'px';
+            bodyPart.style.top = y + 'px';
+            bodyPart.classList.add('snake-body');
+            return bodyPart;
+        }
+
+        function getRandomPosition() {
+            return Math.floor(Math.random() * (boardSize / snakeSize)) * snakeSize;
+        }
+
+        function changeDirection(event) {
+            const keyPressed = event.key.toLowerCase();
+            if (keyPressed === 'w' && dy !== snakeSize * 1) {
+                dx = 0;
+                dy = -snakeSize;
+            } else if (keyPressed === 's' && dy !== -snakeSize * 1) {
+                dx = 0;
+                dy = snakeSize;
+            } else if (keyPressed === 'a' && dx !== snakeSize * 1) {
+                dx = -snakeSize;
+                dy = 0;
+            } else if (keyPressed === 'd' && dx !== -snakeSize * 1) {
+                dx = snakeSize;
+                dy = 0;
+            }
+        }
+
+        function moveSnake() {
+            const newHead = createSnakeBodyPart(snake[0].offsetLeft + dx, snake[0].offsetTop + dy);
+            gameBoard.appendChild(newHead);
+            snake.unshift(newHead);
+
+            if (newHead.offsetLeft === foodX && newHead.offsetTop === foodY) {
+                createFood();
+                foodCount++;
+                foodCountElement.textContent = foodCount;
+            } else {
+                const removedPart = snake.pop();
+                gameBoard.removeChild(removedPart);
+            }
+
+            if (
+                newHead.offsetLeft < 0 ||
+                newHead.offsetTop < 0 ||
+                newHead.offsetLeft >= boardSize ||
+                newHead.offsetTop >= boardSize ||
+                checkCollision(newHead)
+            ) {
+                clearInterval(gameInterval);
+                alert('遊戲結束！已吃到的食物數量：' + foodCount);
+                resetGame();
+            }
+        }
+
+        function checkCollision(head) {
+            for (let i = 1; i < snake.length; i++) {
+                if (head.offsetLeft === snake[i].offsetLeft && head.offsetTop === snake[i].offsetTop) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function resetGame() {
+            snakeX = 0;
+            snakeY = 0;
+            foodX = 0;
+            foodY = 0;
+            dx = snakeSize;
+            dy = 0;
+            snake = [];
+            foodCount = 0;
+            gameBoard.innerHTML = '';
+            foodCountElement.textContent = foodCount;
+            init();
+        }
+
+        init();
+    </script>
+     <img src="../../img/3.gif" width="700" height="500"/>
+</body>
+</html>

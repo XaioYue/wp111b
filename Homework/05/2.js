@@ -11,4 +11,3 @@ function fibonacci(n) {
   console.log(fibonacci(11)); 
   console.log(fibonacci(3));
   console.log(fibonacci(13)); 
-  console.log(fiibonacci(67)); 
